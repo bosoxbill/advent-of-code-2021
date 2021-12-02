@@ -6,11 +6,11 @@ File.readlines(INPUT).each do |line|
   operation, distance = line.split(' ')
   case operation
   when 'forward'
-    horizontal += distance
+    horizontal += distance.to_i
   when 'down'
-    depth += distance
+    depth += distance.to_i
   when 'up'
-    depth -= distance
+    depth -= distance.to_i
   end
 end
 
