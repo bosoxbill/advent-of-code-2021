@@ -11,11 +11,12 @@ file_lines = File.readlines(INPUT)
 file_lines.each do |line|
   from, to = line.chomp.split('-')
   @caves[from] << to
+  @caves[to] << from
 end
 
-pp @caves
+debug_print @caves
 def small?(cave)
-  cave != "end" && cave.downcase == cave
+  cave.downcase == cave
 end
 
 @path = Array.new
@@ -23,17 +24,15 @@ end
 
 def enter_cave(cave, current_path)
   puts "entering " + cave
-  @path.push cave
+  current_path.push cave
   if cave == 'end'
-    @paths << @path
+    @paths << current_path
     debug_print @path.join(',')
   else
     @caves[cave].each do |next_cave|
-      unless small?(next_cave) && @path.include?(next_cave)
-        enter_cave(next_cave, @path.clone)
-      else
-        puts "Can't enter #{next_cave} because small: #{small?(next_cave)} or path had us in there:"
-        pp @path
+      debug_print "looking at #{next_cave}"
+      unless small?(next_cave) && current_path.include?(next_cave)
+        enter_cave(next_cave, current_path.clone)
       end
     end
   end
